@@ -10,8 +10,8 @@ public class KmaxPresenceConditionLocator extends DeduceNotFoundPresenceConditio
         return super.getName() + " + Kmax";
     }
 
-    KmaxPresenceConditionLocator(Implementation implementation, Options options, KmaxFileGrepper kmaxFileGrepper) {
-        super(implementation, options);
+    KmaxPresenceConditionLocator(Implementation implementation, Options options, String mockDir, KmaxFileGrepper kmaxFileGrepper) {
+        super(implementation, options, mockDir);
         this.kmaxFileGrepper = kmaxFileGrepper;
     }
 

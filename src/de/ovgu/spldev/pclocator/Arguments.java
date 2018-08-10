@@ -2,6 +2,7 @@ package de.ovgu.spldev.pclocator;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ public class Arguments {
 
     Arguments(String[] args) {
         this.args = args;
-        this.unusedArgs = args.clone();
+        this.unusedArgs = Arrays.copyOf(args, args.length);
     }
 
     private boolean allowed(String arg, String[] allowedArgs) {
@@ -109,6 +110,7 @@ public class Arguments {
                 "                           presence conditions from surrounding lines (default)\n" +
                 "      kmax                 like deduceNotFound, but considers build system\n" +
                 "                           constraints, requires --kmaxfile and --projectroot\n" +
+                "  --mockdir <directory>     provide a path to store mocked header files\n\n" +
                 "  --explain      prints an explanation for how the presence condition\n" +
                 "                 or configuration space was located\n" +
                 "  --evaluate     collects information useful for statistical evaluation\n" +
@@ -297,10 +299,11 @@ public class Arguments {
         return jarDirectory;
     }
 
-    public static String getMockDirectory() {
-        return Paths.get(getJarDirectory(), "mock").toAbsolutePath().toString();
+    public String getMockDirectory() {
+    	final String mockDir = get("--mockdir");
+        return Paths.get(mockDir != null ? mockDir : getJarDirectory().toString()).resolve("mock").toAbsolutePath().toString();
     }
-
+    
     public static String getFeatureCoPPDirectory() {
         return Paths.get(getJarDirectory(), "FeatureCoPP").toAbsolutePath().toString();
     }

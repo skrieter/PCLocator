@@ -43,15 +43,15 @@ public class Shell {
         if (kind.equals("simple"))
             return new SimplePresenceConditionLocator(implementation, options);
         else if (kind.equals("mockSystemHeaders"))
-            return new MockSystemHeadersPresenceConditionLocator(implementation, options);
+            return new MockSystemHeadersPresenceConditionLocator(implementation, options, args.getMockDirectory());
         else if (kind.equals("ignorePreprocessor"))
-            return new IgnorePreprocessorPresenceConditionLocator(implementation, options);
+            return new IgnorePreprocessorPresenceConditionLocator(implementation, options, args.getMockDirectory());
         else if (kind.equals("kmax")) {
             String filePath = Location.getFilePathFromLocation(args.getLocation());
             KmaxFileGrepper kmaxFileGrepper = new KmaxFileGrepper(implementation, args.getKmaxFilePath(), args.getProjectRootPath(), filePath);
-            return new KmaxPresenceConditionLocator(implementation, options, kmaxFileGrepper);
+            return new KmaxPresenceConditionLocator(implementation, options, args.getMockDirectory(), kmaxFileGrepper);
         } else if (kind.equals("deduceNotFound"))
-            return new DeduceNotFoundPresenceConditionLocator(implementation, options);
+            return new DeduceNotFoundPresenceConditionLocator(implementation, options, args.getMockDirectory());
         else
             throw new RuntimeException("unknown locator kind " + kind);
     }
@@ -113,7 +113,7 @@ public class Shell {
                 dimacsFilePath = args.getDimacsFilePath(),
                 timeLimit = args.getTimeLimit();
         Integer limit = args.getLimit();
-        boolean isExplain = args.isExplain(), isEvaluate = args.isEvaluate(), isRaw = args.isRaw();
+        boolean isExplain = args.isExplain(), isEvaluate = args.isEvaluate(), isRaw = args.isRaw(), isLegacy = args.isLegacy();
         Configuration.setFormatKind(args);
 
         if (args.isHelp() || location == null) {
@@ -137,7 +137,7 @@ public class Shell {
 
         try {
             if (isEvaluate)
-                new Evaluator().run(presenceConditionLocator, new Location(location), dimacsFilePath, args.isLegacy(), options);
+                new Evaluator().run(presenceConditionLocator, new Location(location), dimacsFilePath, isLegacy, options);
             else
                 analyze(presenceConditionLocator, fileAnnotators, location, dimacsFilePath, limit, timeLimit, isExplain, isRaw);
         } catch (Exception e) {

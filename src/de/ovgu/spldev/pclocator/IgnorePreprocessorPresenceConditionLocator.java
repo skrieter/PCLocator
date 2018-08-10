@@ -3,8 +3,8 @@ package de.ovgu.spldev.pclocator;
 public class IgnorePreprocessorPresenceConditionLocator extends MockSystemHeadersPresenceConditionLocator {
     boolean isFeatureCoPPImplementation = false;
 
-    IgnorePreprocessorPresenceConditionLocator(Implementation implementation, Options options) {
-        super(implementation, options);
+    public IgnorePreprocessorPresenceConditionLocator(Implementation implementation, Options options, String mockDir) {
+        super(implementation, options, mockDir);
         if (implementation instanceof FeatureCoPPPresenceConditionLocatorImplementation)
             isFeatureCoPPImplementation = true;
     }
