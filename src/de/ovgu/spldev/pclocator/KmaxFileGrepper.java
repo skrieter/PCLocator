@@ -66,8 +66,6 @@ public class KmaxFileGrepper {
                                                              Path kmaxFilePath, Path projectRootPath, Path filePath) {
         projectRootPath = projectRootPath.toAbsolutePath().normalize();
         filePath = filePath.toAbsolutePath().normalize();
-        if (!filePath.toString().endsWith(".c"))
-            throw new RuntimeException("file " + filePath + " is not a C file");
         if (!Files.exists(filePath))
             throw new RuntimeException("file " + filePath + " does not exist");
         if (!filePath.startsWith(projectRootPath))
