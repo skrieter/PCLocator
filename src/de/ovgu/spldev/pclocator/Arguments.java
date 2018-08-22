@@ -145,7 +145,8 @@ public class Arguments {
     }
 
     boolean isAnnotating() {
-        return getLocation() != null && !Location.isValidLocation(getLocation());
+        final String location = getLocation();
+		return location != null && !Location.isValidLocation(location);
     }
 
     boolean isExplain() {

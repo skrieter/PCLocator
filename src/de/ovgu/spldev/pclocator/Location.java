@@ -65,7 +65,8 @@ public class Location {
     }
 
     public static boolean isValidLocation(String location) {
-        return location.split(":").length >= 2;
+        final String[] locationParts = location.split(":");
+		return locationParts.length >= 2;
     }
 
     protected static String[] getLocationParts(String location) {
