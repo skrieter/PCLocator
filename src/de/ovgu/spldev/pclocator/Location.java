@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class Location {
+	
+	public static final String LOCATION_DELIMITER = "::";
+	
     String filePath;
     int line;
 
@@ -35,7 +38,7 @@ public class Location {
 
     public Location(String location) {
         String[] parts = getLocationParts(location);
-        initialize(String.join(":", Arrays.copyOf(parts, parts.length - 1)), parts[parts.length - 1]);
+        initialize(String.join(LOCATION_DELIMITER, Arrays.copyOf(parts, parts.length - 1)), parts[parts.length - 1]);
     }
 
     protected static String getLineContent(String filePath, int line) {
@@ -65,14 +68,14 @@ public class Location {
     }
 
     public static boolean isValidLocation(String location) {
-        final String[] locationParts = location.split(":");
+        final String[] locationParts = location.split(LOCATION_DELIMITER);
 		return locationParts.length >= 2;
     }
 
     protected static String[] getLocationParts(String location) {
-        String[] parts = location.split(":");
+        String[] parts = location.split(LOCATION_DELIMITER);
         if (parts.length < 2)
-            throw new RuntimeException("\"" + location + "\" is not a valid location of form <file>:<line>");
+            throw new RuntimeException("\"" + location + "\" is not a valid location of form <file>"+LOCATION_DELIMITER+"<line>");
         return parts;
     }
 
@@ -80,7 +83,7 @@ public class Location {
         String filePath;
         if (isValidLocation(location)) {
             String[] parts = getLocationParts(location);
-            filePath = String.join(":", Arrays.copyOf(parts, parts.length - 1));
+            filePath = String.join(LOCATION_DELIMITER, Arrays.copyOf(parts, parts.length - 1));
         } else
             filePath = location;
         return validateFilePath(filePath);
@@ -95,6 +98,6 @@ public class Location {
     }
 
     public String toString() {
-        return filePath + ":" + line;
+        return filePath + LOCATION_DELIMITER + line;
     }
 }

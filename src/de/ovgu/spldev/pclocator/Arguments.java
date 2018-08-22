@@ -2,7 +2,6 @@ package de.ovgu.spldev.pclocator;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,7 +136,7 @@ public class Arguments {
                 "      flags      output configuration as -D flags which can be passed to GCC\n" +
                 "      config     output a .config file usable with the Kbuild build system\n\n" +
                 "The location can have the form\n" +
-                "  <file>:<line>  in which case only the given line will be analyzed, or\n" +
+                "  <file>"+Location.LOCATION_DELIMITER+"<line>  in which case only the given line will be analyzed, or\n" +
                 "  <file>         in which case a tabular analysis of all lines in the file\n" +
                 "                 will be printed.";
     }
