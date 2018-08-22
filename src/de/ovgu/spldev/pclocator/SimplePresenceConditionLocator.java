@@ -40,7 +40,7 @@ public class SimplePresenceConditionLocator extends PresenceConditionLocator {
     protected void cleanUpFilePath() {
     }
 
-    protected HashMap<Integer, PresenceCondition> locatePresenceConditions(String filePath, int[] lines) {
+    public HashMap<Integer, PresenceCondition> locatePresenceConditions(String filePath, int[] lines) {
         Measurement begin = new Measurement();
         HashMap<Integer, PresenceCondition> locatedPresenceConditions;
         try {

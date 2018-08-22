@@ -30,9 +30,12 @@ public class MockSystemHeadersPresenceConditionLocator extends SimplePresenceCon
             "security_context_t pthread_mutexattr_t pthread_mutex_t";
 
     String[] types = (standardTypes + " " + customTypes).split(" ");
+    
+    protected final String mockDir;
 
-    MockSystemHeadersPresenceConditionLocator(Implementation implementation, Options options) {
+    MockSystemHeadersPresenceConditionLocator(Implementation implementation, Options options, String mockDir) {
         super(implementation, options);
+        this.mockDir = mockDir;
         if (implementation instanceof FeatureCoPPPresenceConditionLocatorImplementation)
             isFeatureCoPPImplementation = true;
     }
@@ -47,7 +50,7 @@ public class MockSystemHeadersPresenceConditionLocator extends SimplePresenceCon
         ArrayList<String> includeDirectories = options != null
                 ? new ArrayList<>(Arrays.asList(options.getIncludeDirectories()))
                 : new ArrayList<>();
-        includeDirectories.remove(Arguments.getMockDirectory());
+        includeDirectories.remove(mockDir);
 
         processFile(filePath, includeDirectories);
 
@@ -64,14 +67,14 @@ public class MockSystemHeadersPresenceConditionLocator extends SimplePresenceCon
                 String systemIncludeFile = PreprocessorHelpers.getSystemIncludeFile(line),
                         userIncludeFile = PreprocessorHelpers.getUserIncludeFile(line);
                 if (systemIncludeFile != null) {
-                    Path newFilePath = Paths.get(Arguments.getMockDirectory(), systemIncludeFile);
+                    Path newFilePath = Paths.get(mockDir, systemIncludeFile);
                     try {
-                        Files.createDirectories(newFilePath.getParent());
-                        FileWriter fileWriter = new FileWriter(newFilePath.toFile());
-                        for (String type : types)
-                            fileWriter.write("typedef int " + type + ";\n");
-                        fileWriter.close();
-                        mockFiles.add(systemIncludeFile);
+                    	Files.createDirectories(newFilePath.getParent());
+	                    try (FileWriter fileWriter = new FileWriter(newFilePath.toFile())) {
+	                        for (String type : types)
+	                            fileWriter.write("typedef int " + type + ";\n");
+	                        mockFiles.add(systemIncludeFile);
+	                    }
                     } catch (FileAlreadyExistsException ignored) {
                         mockFiles.add(systemIncludeFile);
                     } catch (IOException e) {

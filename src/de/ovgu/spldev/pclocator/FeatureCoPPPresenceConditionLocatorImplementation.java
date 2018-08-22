@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class FeatureCoPPPresenceConditionLocatorImplementation implements PresenceConditionLocator.Implementation {
     private Field featureTableField, featureOccurrencesField, ftreeField, enclosingField;
 
-    FeatureCoPPPresenceConditionLocatorImplementation() {
+    public FeatureCoPPPresenceConditionLocatorImplementation() {
         try {
             featureTableField = FeatureTable.class.getDeclaredField("featureTable");
             featureOccurrencesField = FeatureModule.class.getDeclaredField("featureOccurrences");

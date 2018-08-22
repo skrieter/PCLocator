@@ -1,3 +1,6 @@
 out
 lib
 .git_old
+/bin/
+/.classpath
+/.project

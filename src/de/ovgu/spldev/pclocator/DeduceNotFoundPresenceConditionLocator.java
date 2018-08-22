@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class DeduceNotFoundPresenceConditionLocator extends IgnorePreprocessorPresenceConditionLocator {
-    DeduceNotFoundPresenceConditionLocator(Implementation implementation, Options options) {
-        super(implementation, options);
+    public DeduceNotFoundPresenceConditionLocator(Implementation implementation, Options options, String mockDir) {
+        super(implementation, options, mockDir);
     }
 
     protected void deduceNotFound(HashMap<Integer, PresenceCondition> locatedPresenceConditions, String[] lineContents,
